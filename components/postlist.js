@@ -61,7 +61,7 @@ export default function PostList({ post, aspect }) {
             <div className="relative flex-shrink-0 w-5 h-5">
               {post.owner.profile_pic && (
                 <Image
-                  src={`${baseUrl}${post.main_pic}`}
+                  src={`${baseUrl}${post.owner.profile_pic}`}
                   blurDataURL={`${baseUrl}${post.owner.profile_pic}`}
                   // loader={rings}
                   objectFit="cover"

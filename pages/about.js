@@ -3,10 +3,33 @@ import Layout from "@components/layout";
 import { authorsquery, configQuery } from "@lib/groq";
 import { getClient } from "@lib/sanity";
 import GetImage from "@utils/getImage";
+import axios from "axios";
 import Image from "next/image";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
 export default function About({ authors, siteconfig }) {
+  const baseUrl = 'https://promo.productlab.pro/api/';
+  
+  const [users, setUsers] = useState();
+  
+  useEffect(() => {
+   const getUsers = async () => {
+     const response = await fetch("https://promo.productlab.pro/api/users", {
+       headers: {
+         Accept: "application/json",
+         "Content-Type": "application/json",
+         Token: "4afbd2691c6d71271635b31d18af22e8"
+       },
+       method: "GET"
+     })
+  
+     setUsers(await response.json());
+   }
+   
+    getUsers();
+  }, []);
+  
   return (
     <Layout {...siteconfig}>
       <Container>
@@ -16,22 +39,24 @@ export default function About({ authors, siteconfig }) {
         <div className="text-center">
           <p className="text-lg">We are a small passionate team.</p>
         </div>
-
-        <div className="grid grid-cols-3 gap-5 mt-6 mb-16 md:mt-16 md:mb-32 md:gap-16">
-          {authors.slice(0, 3).map(author => (
-            <div
-              key={author._id}
-              className="relative overflow-hidden rounded-md aspect-square odd:translate-y-10 odd:md:translate-y-16">
-              <Image
-                {...GetImage(author.image)}
-                alt={author.name || " "}
-                layout="fill"
-                objectFit="cover"
-                sizes="(max-width: 320px) 100vw, 320px"
-              />
-            </div>
-          ))}
-        </div>
+  
+        {users && (
+          <div className="users-wrapper">
+            {users.result.slice(0, 3).map(user => (
+              <div
+                key={user.id}
+                className="relative overflow-hidden rounded-md aspect-square odd:translate-y-10 odd:md:translate-y-16">
+                <Image
+                  src={`${baseUrl}${user.profile_pic}`}
+                  alt={user.name || " "}
+                  layout="fill"
+                  objectFit="cover"
+                  sizes="(max-width: 320px) 100vw, 320px"
+                />
+              </div>
+            ))}
+          </div>
+        )}
 
         <div className="mx-auto prose text-center dark:prose-invert mt-14">
           <p>

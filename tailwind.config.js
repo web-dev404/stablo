@@ -1,5 +1,5 @@
-const colors = import("tailwindcss/colors");
-const defaultTheme = import("tailwindcss/defaultTheme");
+const colors = require("tailwindcss/colors");
+const defaultTheme = require("tailwindcss/defaultTheme");
 
 module.exports = {
   content: [
@@ -17,19 +17,16 @@ module.exports = {
         sans: ["Inter", ...defaultTheme.fontFamily.sans],
         stock: [defaultTheme.fontFamily.sans]
       },
-      aspectRatio: {
-        "4/3": "4 / 3",
-        "3/2": "3 / 2",
-        "2/3": "2 / 3",
-        "9/16": "9 / 16"
-      }
+      // aspectRatio: {
+      //   "4/3": "4 / 3",
+      //   "3/2": "3 / 2",
+      //   "2/3": "2 / 3",
+      //   "9/16": "9 / 16"
+      // }
     }
   },
-  variants: {
-    extend: {}
-  },
   plugins: [
-    import("@tailwindcss/line-clamp"),
-    import("@tailwindcss/typography")
+    require("@tailwindcss/line-clamp"),
+    require("@tailwindcss/typography")
   ]
 };
