@@ -1,34 +1,34 @@
 import Container from "@components/container";
 import Layout from "@components/layout";
-import { authorsquery, configQuery } from "@lib/groq";
-import GetImage from "@utils/getImage";
-import axios from "axios";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
 export default function About({ authors, siteconfig }) {
-  const baseUrl = 'https://promo.productlab.pro/api/';
-  
+  const baseUrl = "https://promo.productlab.pro/api/";
+
   const [users, setUsers] = useState();
-  
+
   useEffect(() => {
-   const getUsers = async () => {
-     const response = await fetch("https://promo.productlab.pro/api/users", {
-       headers: {
-         Accept: "application/json",
-         "Content-Type": "application/json",
-         Token: "4afbd2691c6d71271635b31d18af22e8"
-       },
-       method: "GET"
-     })
-  
-     setUsers(await response.json());
-   }
-   
+    const getUsers = async () => {
+      const response = await fetch(
+        "https://promo.productlab.pro/api/users",
+        {
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            Token: "4afbd2691c6d71271635b31d18af22e8"
+          },
+          method: "GET"
+        }
+      );
+
+      setUsers(await response.json());
+    };
+
     getUsers();
   }, []);
-  
+
   return (
     <Layout {...siteconfig}>
       <Container>
@@ -38,7 +38,7 @@ export default function About({ authors, siteconfig }) {
         <div className="text-center">
           <p className="text-lg">We are a small passionate team.</p>
         </div>
-  
+
         {users && (
           <div className="users-wrapper">
             {users.result.slice(0, 3).map(user => (

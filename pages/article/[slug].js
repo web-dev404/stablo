@@ -1,52 +1,41 @@
+import AuthorCard from "@components/blog/authorCard";
+import CategoryLabel from "@components/blog/category";
+import Container from "@components/container";
+import Layout from "@components/layout";
 import axios from "axios";
-import Head from "next/head";
+import { format, parseISO } from "date-fns";
 import Image from "next/image";
 import Link from "next/link";
-import Layout from "@components/layout";
-import Container from "@components/container";
 import { useRouter } from "next/router";
-import client, {
-  getClient,
-  usePreviewSubscription,
-  PortableText
-} from "@lib/sanity";
-import ErrorPage from "next/error";
-import { parseISO, format } from "date-fns";
-import { NextSeo } from "next-seo";
-import { singlequery, configQuery, pathquery } from "@lib/groq";
-import CategoryLabel from "@components/blog/category";
-import AuthorCard from "@components/blog/authorCard";
 import { useEffect, useState } from "react";
 
 export default function Article(props) {
-  const { postdata, siteconfig, preview } = props;
-  
   const router = useRouter();
-  const baseUrl = 'https://promo.productlab.pro/api/';
-  
+  const baseUrl = "https://promo.productlab.pro/api/";
+
   const [currentPost, setCurrentPost] = useState();
-  
-  
+
   useEffect(() => {
-    axios.get(`https://promo.productlab.pro/api${router.asPath}`)
-      .then(function(response) {
+    axios
+      .get(`https://promo.productlab.pro/api${router.asPath}`)
+      .then(function (response) {
         setCurrentPost(response.data);
-      })
+      });
   }, []);
-  
-  const { data: siteConfig } = usePreviewSubscription(configQuery, {
-    initialData: siteconfig,
-    enabled: preview || router.query.preview !== undefined
-  });
-  
+
+  // const { data: siteConfig } = usePreviewSubscription(configQuery, {
+  //   initialData: siteconfig,
+  //   enabled: preview || router.query.preview !== undefined
+  // });
+
   // if (!router.isFallback && !post?.slug) {
   //   return <ErrorPage statusCode={404} />;
   // }
-  
+
   return (
     <>
       {currentPost && (
-        <Layout {...siteConfig}>
+        <Layout>
           {/*<NextSeo*/}
           {/*  title={`${currentPost.title} - ${currentPost.title}`}*/}
           {/*  description={currentPost.first_sentence || ""}*/}
@@ -69,7 +58,7 @@ export default function Article(props) {
           {/*    cardType: "summary_large_image"*/}
           {/*  }}*/}
           {/*/>*/}
-          
+
           {/*
           <div className="relative bg-white/20">
             <div className="absolute w-full h-full -z-10">
@@ -88,18 +77,17 @@ export default function Article(props) {
               </h1>
             </Container>
           </div> */}
-          
+
           <Container className="!pt-0">
             <div className="max-w-screen-md mx-auto ">
               <div className="text-center">
                 <CategoryLabel categories={currentPost.categories} />
               </div>
-              
-              <h1
-                className="article__title tracking-tight lg:leading-snug text-brand-primary lg:text-4xl dark:text-white">
+
+              <h1 className="article__title tracking-tight lg:leading-snug text-brand-primary lg:text-4xl dark:text-white">
                 {currentPost.title}
               </h1>
-              
+
               <div className="flex justify-center mt-3 space-x-3 text-gray-500 ">
                 <div className="flex items-center gap-3">
                   <div className="relative flex-shrink-0 author-img">
@@ -128,7 +116,8 @@ export default function Article(props) {
                         }>
                         {format(
                           parseISO(
-                            currentPost?.time_created || post._createdAt
+                            currentPost?.time_created ||
+                              post._createdAt
                           ),
                           "MMMM dd, yyyy"
                         )}
@@ -142,7 +131,7 @@ export default function Article(props) {
               </div>
             </div>
           </Container>
-          
+
           <div className="relative z-0 max-w-screen-lg mx-auto overflow-hidden lg:rounded-lg aspect-video">
             {currentPost.main_pic && (
               <Image
@@ -156,10 +145,9 @@ export default function Article(props) {
               />
             )}
           </div>
-          
+
           {/* {article?.mainImage && <MainImage image={article.mainImage} />} */}
-          
-          
+
           <Container>
             <article className="max-w-screen-md mx-auto ">
               <div className="mx-auto my-3 prose prose-base dark:prose-invert prose-a:text-blue-500">
@@ -173,7 +161,9 @@ export default function Article(props) {
                   </a>
                 </Link>
               </div>
-              {currentPost.owner.name && <AuthorCard author={currentPost.owner} />}
+              {currentPost.owner.name && (
+                <AuthorCard author={currentPost.owner} />
+              )}
             </article>
           </Container>
         </Layout>

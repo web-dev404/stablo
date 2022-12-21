@@ -1,29 +1,24 @@
-import axios from "axios";
-import Head from "next/head";
-import Image from "next/image";
-import Link from "next/link";
-import { NextSeo } from "next-seo";
-import Layout from "@components/layout";
 import Container from "@components/container";
+import Layout from "@components/layout";
+import PostList from "@components/postlist";
+import axios from "axios";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import defaultOG from "../public/img/opengraph.jpg";
-import { postquery, configQuery } from "@lib/groq";
-import PostList from "@components/postlist";
 
 export default function Post(props) {
   const { postdata, siteconfig, preview } = props;
-  
+
   const [newPosts, setNewPosts] = useState();
   useEffect(() => {
-    axios.get("https://promo.productlab.pro/api/article")
-      .then(function(response) {
+    axios
+      .get("https://promo.productlab.pro/api/article")
+      .then(function (response) {
         setNewPosts(response.data.result);
       });
   }, []);
-  
+
   const router = useRouter();
-  
+
   // const { data: siteConfig } = usePreviewSubscription(configQuery, {
   //   initialData: siteconfig,
   //   enabled: preview || router.query.preview !== undefined
@@ -54,7 +49,7 @@ export default function Post(props) {
           {/*    cardType: "summary_large_image"*/}
           {/*  }}*/}
           {/*/>*/}
-          
+
           <Container>
             <div className="grid gap-10 lg:gap-10 md:grid-cols-2">
               {newPosts.slice(0, 2).map(post => (
@@ -67,11 +62,7 @@ export default function Post(props) {
             </div>
             <div className="grid gap-10 mt-10 lg:gap-10 md:grid-cols-2 xl:grid-cols-3 ">
               {newPosts.slice(2).map(post => (
-                <PostList
-                  key={post.id}
-                  post={post}
-                  aspect="square"
-                />
+                <PostList key={post.id} post={post} aspect="square" />
               ))}
             </div>
           </Container>

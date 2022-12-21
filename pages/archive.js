@@ -8,7 +8,7 @@ import Container from "@components/container";
 // import Categories from "@components/categories";
 import { useRouter } from "next/router";
 
-import { postquery, configQuery } from "@lib/groq";
+// import { postquery, configQuery } from "@lib/groq";
 
 import PostList from "@components/postlist";
 

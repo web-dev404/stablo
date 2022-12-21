@@ -1,14 +1,8 @@
 import Container from "@components/container";
 import Layout from "@components/layout";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
-import useWeb3Forms from "use-web3forms";
-import { configQuery } from "@lib/groq";
-import {
-  LocationMarkerIcon,
-  MailIcon,
-  PhoneIcon
-} from "@heroicons/react/outline";
+
 export default function Contact({ siteconfig }) {
   const {
     register,
@@ -60,7 +54,7 @@ export default function Contact({ siteconfig }) {
         {/*      Have something to say? We are here to help. Fill up the*/}
         {/*      form or send email or call phone.*/}
         {/*    </p>*/}
-        
+
         {/*    <div className="mt-5">*/}
         {/*      <div className="flex items-center mt-2 space-x-2 text-dark-600 dark:text-gray-400">*/}
         {/*        <LocationMarkerIcon className="w-4 h-4" />*/}
@@ -92,7 +86,7 @@ export default function Contact({ siteconfig }) {
         {/*        className="hidden"*/}
         {/*        style={{ display: "none" }}*/}
         {/*        {...register("botcheck")}></input>*/}
-        
+
         {/*      <div className="mb-5">*/}
         {/*        <input*/}
         {/*          type="text"*/}
@@ -114,7 +108,7 @@ export default function Contact({ siteconfig }) {
         {/*          </div>*/}
         {/*        )}*/}
         {/*      </div>*/}
-        
+
         {/*      <div className="mb-5">*/}
         {/*        <label htmlFor="email_address" className="sr-only">*/}
         {/*          Email Address*/}
@@ -144,7 +138,7 @@ export default function Contact({ siteconfig }) {
         {/*          </div>*/}
         {/*        )}*/}
         {/*      </div>*/}
-        
+
         {/*      <div className="mb-3">*/}
         {/*        <textarea*/}
         {/*          name="message"*/}
@@ -165,7 +159,7 @@ export default function Contact({ siteconfig }) {
         {/*          </div>*/}
         {/*        )}*/}
         {/*      </div>*/}
-        
+
         {/*      <button*/}
         {/*        type="submit"*/}
         {/*        className="w-full py-4 font-semibold text-white transition-colors bg-gray-900 rounded-md hover:bg-gray-800 focus:outline-none focus:ring-offset-2 focus:ring focus:ring-gray-200 px-7 dark:bg-white dark:text-black ">*/}
@@ -192,7 +186,7 @@ export default function Contact({ siteconfig }) {
         {/*        )}*/}
         {/*      </button>*/}
         {/*    </form>*/}
-        
+
         {/*    {isSubmitSuccessful && isSuccess && (*/}
         {/*      <div className="mt-3 text-sm text-center text-green-500">*/}
         {/*        {message || "Success. Message sent successfully"}*/}
@@ -210,14 +204,14 @@ export default function Contact({ siteconfig }) {
   );
 }
 
-export async function getStaticProps({ params, preview = false }) {
-  const config = await getClient(preview).fetch(configQuery);
-
-  return {
-    props: {
-      siteconfig: { ...config },
-      preview
-    },
-    revalidate: 100
-  };
-}
+// export async function getStaticProps({ params, preview = false }) {
+//   const config = await getClient(preview).fetch(configQuery);
+//
+//   return {
+//     props: {
+//       siteconfig: { ...config },
+//       preview
+//     },
+//     revalidate: 100
+//   };
+// }
