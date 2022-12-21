@@ -1,6 +1,5 @@
 import Image from "next/image";
 import { PortableText } from "@lib/sanity";
-import GetImage from "@utils/getImage";
 
 export default function AuthorCard({ author }) {
   const baseUrl = 'https://promo.productlab.pro/api/';

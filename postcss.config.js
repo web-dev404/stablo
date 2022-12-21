@@ -3,8 +3,11 @@
 module.exports = {
   plugins: {
     tailwindcss: {
-      content: ["./components/**/*.{html,js}"],
+      content: [
+        "./pages/**/*.{js,ts,jsx,tsx}",
+        "./components/**/*.{js,ts,jsx,tsx}"
+      ]
     },
-    autoprefixer: {},
-  },
-}
+    autoprefixer: {}
+  }
+};

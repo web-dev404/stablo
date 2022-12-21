@@ -1,7 +1,6 @@
 import Container from "@components/container";
 import Layout from "@components/layout";
 import { authorsquery, configQuery } from "@lib/groq";
-import { getClient } from "@lib/sanity";
 import GetImage from "@utils/getImage";
 import axios from "axios";
 import Image from "next/image";
@@ -80,16 +79,16 @@ export default function About({ authors, siteconfig }) {
   );
 }
 
-export async function getStaticProps({ params, preview = false }) {
-  //console.log(params);
-  const authors = await getClient(preview).fetch(authorsquery);
-  const config = await getClient(preview).fetch(configQuery);
-  return {
-    props: {
-      authors: authors,
-      siteconfig: { ...config },
-      preview
-    },
-    revalidate: 100
-  };
-}
+// export async function getStaticProps({ params, preview = false }) {
+//   //console.log(params);
+//   const authors = await getClient(preview).fetch(authorsquery);
+//   const config = await getClient(preview).fetch(configQuery);
+//   return {
+//     props: {
+//       authors: authors,
+//       siteconfig: { ...config },
+//       preview
+//     },
+//     revalidate: 100
+//   };
+// }

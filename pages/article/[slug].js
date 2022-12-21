@@ -11,7 +11,6 @@ import client, {
   PortableText
 } from "@lib/sanity";
 import ErrorPage from "next/error";
-import GetImage from "@utils/getImage";
 import { parseISO, format } from "date-fns";
 import { NextSeo } from "next-seo";
 import { singlequery, configQuery, pathquery } from "@lib/groq";
@@ -183,48 +182,48 @@ export default function Article(props) {
   );
 }
 
-const MainImage = ({ image }) => {
-  return (
-    <div className="mt-12 mb-12 ">
-      <Image {...GetImage(image)} alt={image.alt || "Thumbnail"} />
-      <figcaption className="text-center ">
-        {image.caption && (
-          <span className="text-sm italic text-gray-600 dark:text-gray-400">
-            {image.caption}
-          </span>
-        )}
-      </figcaption>
-    </div>
-  );
-};
-
-export async function getStaticProps({ params, preview = false }) {
-  //console.log(params);
-  const post = await getClient(preview).fetch(singlequery, {
-    slug: params.slug
-  });
-  
-  const config = await getClient(preview).fetch(configQuery);
-  
-  return {
-    props: {
-      postdata: { ...post },
-      siteconfig: { ...config },
-      preview
-    },
-    revalidate: 10
-  };
-}
-
-export async function getStaticPaths() {
-  const allPosts = await client.fetch(pathquery);
-  return {
-    paths:
-      allPosts?.map(page => ({
-        params: {
-          slug: page.slug
-        }
-      })) || [],
-    fallback: true
-  };
-}
+// const MainImage = ({ image }) => {
+//   return (
+//     <div className="mt-12 mb-12 ">
+//       <Image {...GetImage(image)} alt={image.alt || "Thumbnail"} />
+//       <figcaption className="text-center ">
+//         {image.caption && (
+//           <span className="text-sm italic text-gray-600 dark:text-gray-400">
+//             {image.caption}
+//           </span>
+//         )}
+//       </figcaption>
+//     </div>
+//   );
+// };
+//
+// export async function getStaticProps({ params, preview = false }) {
+//   //console.log(params);
+//   const post = await getClient(preview).fetch(singlequery, {
+//     slug: params.slug
+//   });
+//
+//   const config = await getClient(preview).fetch(configQuery);
+//
+//   return {
+//     props: {
+//       postdata: { ...post },
+//       siteconfig: { ...config },
+//       preview
+//     },
+//     revalidate: 10
+//   };
+// }
+//
+// export async function getStaticPaths() {
+//   const allPosts = await client.fetch(pathquery);
+//   return {
+//     paths:
+//       allPosts?.map(page => ({
+//         params: {
+//           slug: page.slug
+//         }
+//       })) || [],
+//     fallback: true
+//   };
+// }
