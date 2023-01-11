@@ -1,9 +1,10 @@
-import Image from "next/image";
 import { PortableText } from "@lib/sanity";
+import Image from "next/image";
+import Link from "next/link";
 
-export default function AuthorCard({ author }) {
-  const baseUrl = 'https://promo.productlab.pro/api/';
-  
+export default function AuthorCard({ author, performer }) {
+  const baseUrl = "https://promo.productlab.pro/api/";
+
   return (
     <div className="px-8 py-8 mt-3 text-gray-500 rounded-2xl bg-gray-50 dark:bg-gray-900 dark:text-gray-400">
       <div className="flex flex-wrap items-start sm:space-x-6 sm:flex-nowrap">
@@ -30,6 +31,13 @@ export default function AuthorCard({ author }) {
           <div>
             {author.bio && <PortableText value={author.bio} />}
           </div>
+          <Link
+            className={
+              "text-blue-600 dark:text-blue-500 bg-brand-secondary/20"
+            }
+            href={`/author/${performer.id}`}>
+            Посмотреть профиль
+          </Link>
         </div>
       </div>
     </div>

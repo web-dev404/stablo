@@ -17,7 +17,7 @@ export default function About({ authors, siteconfig }) {
           headers: {
             Accept: "application/json",
             "Content-Type": "application/json",
-            Token: "4afbd2691c6d71271635b31d18af22e8"
+            Token: "fd367175c6fe85c5eea6cc86882acee4"
           },
           method: "GET"
         }
@@ -41,7 +41,7 @@ export default function About({ authors, siteconfig }) {
 
         {users && (
           <div className="users-wrapper">
-            {users.result.slice(0, 3).map(user => (
+            {users.result.map(user => (
               <div
                 key={user.id}
                 className="relative overflow-hidden rounded-md aspect-square odd:translate-y-10 odd:md:translate-y-16">

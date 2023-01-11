@@ -1,16 +1,14 @@
-import Link from "next/link";
 import Label from "@components/ui/label";
+import Link from "next/link";
 
-export default function CategoryLabel({ categories }) {
+export default function CategoryLabel({ category }) {
   return (
     <div>
-      {categories?.length &&
-        categories.slice(0).map((category, index) => (
-          <Link
-            href={`/category/${category.slug.current}`}
-            key={index}>
+      {category?.length &&
+        category.slice(0).map((categoryItem, index) => (
+          <Link href={`/category/${categoryItem.id}`} key={index}>
             <a>
-              <Label color={category.color}>{category.title}</Label>
+              <Label color={"pink"}>{categoryItem.name}</Label>
             </a>
           </Link>
         ))}

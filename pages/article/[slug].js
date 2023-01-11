@@ -4,6 +4,7 @@ import Container from "@components/container";
 import Layout from "@components/layout";
 import axios from "axios";
 import { format, parseISO } from "date-fns";
+import parse from "html-react-parser";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -11,17 +12,29 @@ import { useEffect, useState } from "react";
 
 export default function Article(props) {
   const router = useRouter();
+  const id = router.query.slug;
   const baseUrl = "https://promo.productlab.pro/api/";
-
   const [currentPost, setCurrentPost] = useState();
 
   useEffect(() => {
-    axios
-      .get(`https://promo.productlab.pro/api${router.asPath}`)
-      .then(function (response) {
-        setCurrentPost(response.data);
-      });
-  }, []);
+    if (!id) {
+      return;
+    }
+
+    const updateGames = async () => {
+      axios
+        .get(`https://promo.productlab.pro/api/article/${id}`)
+        .then(function (response) {
+          setCurrentPost(response.data);
+        });
+    };
+
+    updateGames();
+  }, [id]);
+
+  useEffect(() => {
+    console.log(currentPost);
+  }, currentPost);
 
   // const { data: siteConfig } = usePreviewSubscription(configQuery, {
   //   initialData: siteconfig,
@@ -152,7 +165,7 @@ export default function Article(props) {
             <article className="max-w-screen-md mx-auto ">
               <div className="mx-auto my-3 prose prose-base dark:prose-invert prose-a:text-blue-500">
                 {/*{currentPost.first_sentence && <PortableText value={currentPost.first_sentence} />}*/}
-                {currentPost.first_sentence}
+                {parse(currentPost.content)}
               </div>
               <div className="allPostsBtn mt-7 mb-7">
                 <Link href="/">
@@ -162,7 +175,10 @@ export default function Article(props) {
                 </Link>
               </div>
               {currentPost.owner.name && (
-                <AuthorCard author={currentPost.owner} />
+                <AuthorCard
+                  author={currentPost.owner}
+                  performer={currentPost.owner}
+                />
               )}
             </article>
           </Container>
@@ -171,49 +187,3 @@ export default function Article(props) {
     </>
   );
 }
-
-// const MainImage = ({ image }) => {
-//   return (
-//     <div className="mt-12 mb-12 ">
-//       <Image {...GetImage(image)} alt={image.alt || "Thumbnail"} />
-//       <figcaption className="text-center ">
-//         {image.caption && (
-//           <span className="text-sm italic text-gray-600 dark:text-gray-400">
-//             {image.caption}
-//           </span>
-//         )}
-//       </figcaption>
-//     </div>
-//   );
-// };
-//
-// export async function getStaticProps({ params, preview = false }) {
-//   //console.log(params);
-//   const post = await getClient(preview).fetch(singlequery, {
-//     slug: params.slug
-//   });
-//
-//   const config = await getClient(preview).fetch(configQuery);
-//
-//   return {
-//     props: {
-//       postdata: { ...post },
-//       siteconfig: { ...config },
-//       preview
-//     },
-//     revalidate: 10
-//   };
-// }
-//
-// export async function getStaticPaths() {
-//   const allPosts = await client.fetch(pathquery);
-//   return {
-//     paths:
-//       allPosts?.map(page => ({
-//         params: {
-//           slug: page.slug
-//         }
-//       })) || [],
-//     fallback: true
-//   };
-// }

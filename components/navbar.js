@@ -1,31 +1,30 @@
-import React from "react";
-import { Disclosure } from "@headlessui/react";
 import Container from "@components/container";
-import Link from "next/link";
+import { Disclosure } from "@headlessui/react";
 import Image from "next/image";
-import Logo from "../public/img/logo.svg";
+import Link from "next/link";
+import React from "react";
 import LogoWhite from "../public/img/logo-white.svg";
-import rings from '../public/img/rings.svg';
+import Logo from "../public/img/logo.svg";
 
 export default function Navbar() {
   const leftmenu = [
     {
-      label: "Home",
+      label: "Главная",
       href: "/"
     },
     {
-      label: "About",
+      label: "Про нас",
       href: "/about"
     },
     {
-      label: "Contact",
+      label: "Контакты",
       href: "/contact"
     }
   ];
 
   const rightmenu = [
     {
-      label: "Archive",
+      label: "Архив",
       href: "/archive"
     },
     {
@@ -34,7 +33,7 @@ export default function Navbar() {
       external: true
     },
     {
-      label: "Download",
+      label: "Скачать",
       href: "https://web3templates.com/templates/stablo-minimal-blog-template",
       external: true
     }
