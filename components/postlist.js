@@ -17,7 +17,7 @@ export default function PostList({ post, aspect }) {
 
   return (
     <>
-      <div className="cursor-pointer link-effect basis-1/2">
+      <div className="cursor-pointer link-effect basis-1/2 max-w-full overflow-hidden">
         <div
           className={cx(
             "relative overflow-hidden transition-all bg-gray-100 rounded-md dark:bg-gray-800   hover:scale-105",
@@ -42,7 +42,9 @@ export default function PostList({ post, aspect }) {
             )}
           </Link>
         </div>
-        <CategoryLabel category={post.category} />
+        {post.category[0] && (
+          <CategoryLabel category={post.category} />
+        )}
         <h2 className="mt-2 text-lg font-semibold tracking-normal text-brand-primary dark:text-white">
           <Link href={`/article/${post.id}`}>
             <span className="link-underline link-underline-blue">

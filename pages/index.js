@@ -3,19 +3,34 @@ import Layout from "@components/layout";
 import PostList from "@components/postlist";
 import axios from "axios";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
 
-export default function Post(props) {
-  const { postdata, siteconfig, preview } = props;
+export const getServerSideProps = async context => {
+  const response = await axios.get(
+    "https://promo.productlab.pro/api/article?limit=14"
+  );
 
-  const [newPosts, setNewPosts] = useState();
-  useEffect(() => {
-    axios
-      .get("https://promo.productlab.pro/api/article")
-      .then(function (response) {
-        setNewPosts(response.data.result);
-      });
-  }, []);
+  if (!response.data.result) {
+    return {
+      notFound: true
+    };
+  }
+
+  return {
+    props: { articles: response.data.result }
+  };
+};
+
+export default function Post({ articles }) {
+  // const { postdata, siteconfig, preview } = props;
+
+  // const [newPosts, setNewPosts] = useState();
+  // useEffect(() => {
+  //   axios
+  //     .get("https://promo.productlab.pro/api/article")
+  //     .then(function (response) {
+  //       setNewPosts(response.data.result);
+  //     });
+  // }, []);
 
   const router = useRouter();
 
@@ -25,7 +40,7 @@ export default function Post(props) {
   // });
   return (
     <>
-      {newPosts && (
+      {articles && (
         <Layout>
           {/*<NextSeo*/}
           {/*  title={`${siteConfig?.title}`}*/}
@@ -52,7 +67,7 @@ export default function Post(props) {
 
           <Container>
             <div className="grid gap-10 lg:gap-10 md:grid-cols-2">
-              {newPosts.slice(0, 2).map(post => (
+              {articles.slice(0, 2).map(post => (
                 <PostList
                   key={post.id}
                   post={post}
@@ -61,7 +76,7 @@ export default function Post(props) {
               ))}
             </div>
             <div className="grid gap-10 mt-10 lg:gap-10 md:grid-cols-2 xl:grid-cols-3 ">
-              {newPosts.slice(2).map(post => (
+              {articles.slice(2, 15).map(post => (
                 <PostList key={post.id} post={post} aspect="square" />
               ))}
             </div>

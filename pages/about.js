@@ -42,16 +42,24 @@ export default function About({ authors, siteconfig }) {
         {users && (
           <div className="users-wrapper">
             {users.result.map(user => (
-              <div
-                key={user.id}
-                className="relative overflow-hidden rounded-md aspect-square odd:translate-y-10 odd:md:translate-y-16">
-                <Image
-                  src={`${baseUrl}${user.profile_pic}`}
-                  alt={user.name || " "}
-                  layout="fill"
-                  objectFit="cover"
-                  sizes="(max-width: 320px) 100vw, 320px"
-                />
+              <div>
+                <div
+                  key={user.id}
+                  className="relative overflow-hidden rounded-md aspect-square">
+                  <Image
+                    src={`${baseUrl}${user.profile_pic}`}
+                    alt={user.name || " "}
+                    layout="fill"
+                    objectFit="cover"
+                    sizes="(max-width: 320px) 100vw, 320px"
+                  />
+                </div>
+                <p
+                  className={
+                    "text-center text-[18px] font-medium mt-1"
+                  }>
+                  {user.name}
+                </p>
               </div>
             ))}
           </div>

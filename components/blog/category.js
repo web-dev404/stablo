@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export default function CategoryLabel({ category }) {
   return (
-    <div>
+    <div className={"flex items-center gap-2"}>
       {category?.length &&
         category.slice(0).map((categoryItem, index) => (
           <Link href={`/category/${categoryItem.id}`} key={index}>
