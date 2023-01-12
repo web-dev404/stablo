@@ -3,6 +3,8 @@ import Layout from "@components/layout";
 import PostList from "@components/postlist";
 import axios from "axios";
 import { useRouter } from "next/router";
+import { useState } from "react";
+import InfiniteScroll from "react-infinite-scroll-component";
 
 export const getServerSideProps = async context => {
   const response = await axios.get(
@@ -20,7 +22,7 @@ export const getServerSideProps = async context => {
   };
 };
 
-export default function Post({ articles }) {
+export default function Post(props) {
   // const { postdata, siteconfig, preview } = props;
 
   // const [newPosts, setNewPosts] = useState();
@@ -32,12 +34,27 @@ export default function Post({ articles }) {
   //     });
   // }, []);
 
-  const router = useRouter();
-
   // const { data: siteConfig } = usePreviewSubscription(configQuery, {
   //   initialData: siteconfig,
   //   enabled: preview || router.query.preview !== undefined
   // });
+
+  const router = useRouter();
+  const [hasMore, setHasMore] = useState(true);
+  const [articles, setArticles] = useState(props.articles);
+  console.log(articles);
+
+  const getMoreArticles = async () => {
+    const response = await axios.get(
+      `https://promo.productlab.pro/api/article?limit=14&offset=${articles.length}`
+    );
+
+    if (response.data.result.length == 0) {
+      setHasMore(false);
+    }
+    setArticles(article => [...article, ...response.data.result]);
+  };
+
   return (
     <>
       {articles && (
@@ -66,20 +83,31 @@ export default function Post({ articles }) {
           {/*/>*/}
 
           <Container>
-            <div className="grid gap-10 lg:gap-10 md:grid-cols-2">
-              {articles.slice(0, 2).map(post => (
-                <PostList
-                  key={post.id}
-                  post={post}
-                  aspect="landscape"
-                />
-              ))}
-            </div>
-            <div className="grid gap-10 mt-10 lg:gap-10 md:grid-cols-2 xl:grid-cols-3 ">
-              {articles.slice(2, 15).map(post => (
-                <PostList key={post.id} post={post} aspect="square" />
-              ))}
-            </div>
+            <InfiniteScroll
+              dataLength={articles.length}
+              next={getMoreArticles}
+              hasMore={hasMore}
+              loader={<h3> Loading...</h3>}
+              style={{ overflow: "unset" }}>
+              <div className="grid gap-10 lg:gap-10 md:grid-cols-2">
+                {articles.slice(0, 2).map(post => (
+                  <PostList
+                    key={post.id}
+                    post={post}
+                    aspect="landscape"
+                  />
+                ))}
+              </div>
+              <div className="grid gap-10 mt-10 lg:gap-10 md:grid-cols-2 xl:grid-cols-3 ">
+                {articles.slice(2).map(post => (
+                  <PostList
+                    key={post.id}
+                    post={post}
+                    aspect="square"
+                  />
+                ))}
+              </div>
+            </InfiniteScroll>
           </Container>
         </Layout>
       )}
