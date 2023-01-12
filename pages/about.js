@@ -42,7 +42,7 @@ export default function About({ authors, siteconfig }) {
         {users && (
           <div className="users-wrapper">
             {users.result.map(user => (
-              <div>
+              <div key={user.id}>
                 <div
                   key={user.id}
                   className="relative overflow-hidden rounded-md aspect-square">
